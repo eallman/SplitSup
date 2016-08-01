@@ -63,7 +63,8 @@ else
         CFLAGS += $(OPTFLAGS)
 endif
 
-CFLAGS   +=   -Wall
+# Uncomment if want all warnings
+# CFLAGS   +=   -Wall
 
 # Put the directory for GSL include files here
 INCL_GSL = /opt/local/include
