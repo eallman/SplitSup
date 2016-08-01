@@ -1,0 +1,53 @@
+This directory contains some files for becoming familiar with using
+SplitSup.
+
+The file "infile" is a PHYLIP-formatted DNA sequence file created by
+Seq-Gen.  There are 25 taxa and the sequences are 500 bp.  The
+sequences in infile were sorted so that the first sequence is t01, the
+second is t02, etc.  This simply makes it easier to write down splits
+of interest.
+
+These files are sample splitsfiles: 
+   all4splits_25taxa              (contains all 25 choose 4 4-splits)
+   single4split_25taxa            (contains a single 4-split for a sliding window analysis)
+
+
+
+
+Multiple splits:
+
+For computing scores for all 4-splits, execute the following commands
+at unix prompt:
+
+   cp all4splits_25taxa splitsfile        (set the correct splitsfile)     
+   SplitSup
+
+The output in scoresfile is the scores for all 12,650 4-splits.  Save
+the scoresfile to a new file if you do not want it to be overwritten.
+
+
+Sliding Window analysis:
+
+For a sliding window analysis, use the following commands: 
+
+   cp single4split_25taxa splitsfile      (set the correct splitsfile)
+   SplitSup -s -w100 -o25 -m50
+
+This sets the window size to 100 bp, the slide size to 25 bp, and requires
+a minimun number of 50 bp for a score to be computed.
+
+
+Other ranks:
+
+For performing an analysis with a rank r different from 4, use the
+-rRANK option.  For example,
+
+    SplitSup -r6
+
+will compute scores for flattening matrices that are approximately
+rank 6.  
+
+
+
+
+
