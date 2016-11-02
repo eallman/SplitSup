@@ -1,0 +1,12 @@
+SplitSup Versions:
+
+v 1.0:   August 1, 2016:  original released version
+
+v 1.01:  November 2, 2016: Updated sequence file read to permit
+alignments with gaps for the non-sliding window analyses also.
+If SplitSup is run without the sliding window option (i.e. type
+only `SplitSup' at the command line), then alignments with gaps
+are read in and the number of gapless sites printed to the
+terminal.  The timer code was modified to report hundredths
+of seconds if user desires.
+
