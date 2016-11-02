@@ -6,6 +6,7 @@
 #include <sys/resource.h>
 #include <gsl/gsl_math.h>
 #include <gsl/gsl_eigen.h>
+#include "time.h"
 
 typedef char naym[11];
 

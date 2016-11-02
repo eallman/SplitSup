@@ -1,13 +1,13 @@
 /***************************************************************/
-/********** SplitSup version 1.0                      **********/
+/********** SplitSup version 1.01                     **********/
 /********** Written by L. S. Kubatko, E. S. Allman    **********/
 /********** and J. Rhodes, July 2016                  **********/
 /***************************************************************/
 
 #include "main.h"
 
-// uncomment if want timing information
-// #include "time.h"
+// set value to 1 if want timing information printed out
+int showTimeElapsed = 0;
 
 /************************/
 /** global variables   **/
@@ -55,14 +55,14 @@ void parse_cmdline(int argc, char *argv[])
     case 1:
       // Not performing sliding window analysis
       SW=0;
-      printf("\n SplitSup version 1.0\n\n\n"); 
+      printf("\n SplitSup version 1.01\n\n\n"); 
       break;
 
     case 2:
       // Not performing sliding window analysis
       // but setting user-defined rank condition
       SW=0;
-      printf("\n SplitSup version 1.0\n\n\n"); 
+      printf("\n SplitSup version 1.01\n\n\n"); 
 
       n = 1;
 
@@ -219,7 +219,7 @@ void parse_cmdline(int argc, char *argv[])
 
       // Correctly gave parameters for SW analysis.  Set toggle.
       SW=1;
-      printf("\n SplitSup version 1.0\n\n\n"); 
+      printf("\n SplitSup version 1.01\n\n\n"); 
       printf(" Sliding window analysis with parameters:\n");
       printf("     window size is %d\n",blocksize);
       printf("     slide is %d\n",slidesize);
@@ -341,7 +341,7 @@ void parse_cmdline(int argc, char *argv[])
 
       // Correctly gave parameters for SW analysis.  Set toggle.
       SW=1;
-      printf("\n SplitSup version 1.0\n\n\n"); 
+      printf("\n SplitSup version 1.01\n\n\n"); 
       printf(" Sliding window analysis with parameters:\n");
       printf("     window size is %d\n",blocksize);
       printf("     slide is %d\n",slidesize);
@@ -528,7 +528,6 @@ naym* getSequenceData(void) {
 void unique_sites(void){
 
   int i,k,s,m=0,j=0,jj=0;
-  //  int num_no_gaps=0;
   int start;
 
   start=0;
@@ -652,9 +651,8 @@ void free_Memory(){
 int main( int argc, char *argv[])
 {
 
-  // uncomment next two lines if want timing information
-  /*  time_t start,end;
-      start=clock();                                    */
+  time_t start,end;
+  start=clock();  
 
   int  num_blocks; 
 
@@ -768,7 +766,8 @@ int main( int argc, char *argv[])
       // Start computations of scores
 
       // Get sum of squared counts, i.e. the square of the Froebenius norm 
-      for (i=0; i<num_unique; i++) fnorm2 = fnorm2 + pow((double)site_counter[i]/(double)nsite,2);
+      if (nsite!=num_no_gaps) printf(" The sequence data has %d gapless sites out of %d sites in the alignment.\n",num_no_gaps,nsite);
+      for (i=0; i<num_unique; i++) fnorm2 = fnorm2 + pow((double)site_counter[i]/(double)num_no_gaps,2);
 
       Data_Bin();
 
@@ -886,11 +885,13 @@ int main( int argc, char *argv[])
 
   free_Memory();
 
-  // uncomment next three lines if want timing information
-  /*  end=clock();
-  int sec =(end-start)/CLOCKS_PER_SEC;
-  printf(" Number of seconds elapsed is %d\n\n",sec);          */
-
+  if (showTimeElapsed==1) {
+    end=clock();
+    double cc = CLOCKS_PER_SEC;
+    double sec =(end-start)/cc;
+    printf(" Number of seconds elapsed is %0.2f\n\n",sec);   
+  }       
+ 
   exit(0);   
 
 }
