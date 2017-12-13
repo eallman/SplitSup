@@ -199,6 +199,17 @@ void getSVDscore(unsigned int *split_taxa, int sze)
     split_taxaC[j] = 0;
   }
 
+  /* for counting number of SVs returned */ 
+  int numberFound=0;
+
+  /* setting a tolerance for checking when the sum of the squares
+     of the requested number of singular values equals the sum of 
+     the squares of all of the singular values (the Frobenius norm).
+     If these two values are equal to within tol, then the score
+     is set to zero.                                                */
+  double tol=10e-12;
+  int flag=1;
+
   // transfer split 
   for (j=0; j<nints; j++) split_taxaR[j] = split_taxa[j];   
   // complementary mask 
@@ -271,25 +282,44 @@ void getSVDscore(unsigned int *split_taxa, int sze)
   
   /* Compute SVD */
   extern long SVDVerbosity;
+
   SVDVerbosity=0; // print nothing from SVD routine
 
   R = svdLAS2A(S,rank);
 
   /** Scores computations **/
-  for (j=0; j<rank; j++)   score = score+pow(R->S[j],2);
-  score = sqrt(1-score/fnorm2);
-  
-  if (SW==0)
+
+  // count number of singular values requested are found
+  numberFound = R->d;
+
+  if (numberFound < rank)
     {
-      // no SW
-      fprintf(scoresfile, "%1.15f\n", score);
-    }
-  else 
-    {
-      // SW analysis
-      fprintf(scoresfile, "%1.15f\n",score);
+      score = NAN;
+      flag = 0;
     }
   
+  // only compute score if the requested number of singular values was returned
+
+  if (flag) 
+    {
+      for (j=0; j<rank; j++)   score = score+pow(R->S[j],2);
+
+      /* sometimes sum of squares of r singular values > fnorm2 due to numerical error, 
+         i.e. in the 10e-16 decimal place.  Test how close these values are and
+	 reset score to 0 if difference less than tolerance.                         */
+
+      if (fabs(score-fnorm2)>tol)  
+	{
+	  score = sqrt(1-score/fnorm2);
+	}
+      else
+	{
+	  score=0;
+	}
+    }
+
+  fprintf(scoresfile, "%1.15f\n",score); 
+
   fflush(0);
   
   free(firstnz);    

@@ -10,3 +10,21 @@ are read in and the number of gapless sites printed to the
 terminal.  The timer code was modified to report hundredths
 of seconds if user desires.
 
+v 1.01:  July 19, 2017:  Update the manual with the correct
+citation information.
+
+
+v 1.02:  July 24, 2017:  Modified the SVD score computations as
+follows:
+
+   *  If the user requests r singular values to be computed
+and fewer are returned by the SVD routine, the score is set to nan.
+
+   *  Because of numerical error sometimes the sum of the squares
+of the first r singular values is equal to the square of the 
+Frobenius norm to within 10e-16.  The score is then set to zero.
+See flatBinary.c for details.
+
+
+v 1.02:  December 13, 2017:  Discovered that I never uploaded
+the new version of flatBinary.c in July.  Now this is done.

@@ -1,5 +1,5 @@
 /***************************************************************/
-/********** SplitSup version 1.01                     **********/
+/********** SplitSup version 1.02                     **********/
 /********** Written by L. S. Kubatko, E. S. Allman    **********/
 /********** and J. Rhodes, July 2016                  **********/
 /***************************************************************/
@@ -7,7 +7,7 @@
 #include "main.h"
 
 // set value to 1 if want timing information printed out
-int showTimeElapsed = 0;
+int showTimeElapsed = 1;
 
 /************************/
 /** global variables   **/
@@ -55,14 +55,14 @@ void parse_cmdline(int argc, char *argv[])
     case 1:
       // Not performing sliding window analysis
       SW=0;
-      printf("\n SplitSup version 1.01\n\n\n"); 
+      printf("\n SplitSup version 1.02\n\n\n"); 
       break;
 
     case 2:
       // Not performing sliding window analysis
       // but setting user-defined rank condition
       SW=0;
-      printf("\n SplitSup version 1.01\n\n\n"); 
+      printf("\n SplitSup version 1.02\n\n\n"); 
 
       n = 1;
 
@@ -219,7 +219,7 @@ void parse_cmdline(int argc, char *argv[])
 
       // Correctly gave parameters for SW analysis.  Set toggle.
       SW=1;
-      printf("\n SplitSup version 1.01\n\n\n"); 
+      printf("\n SplitSup version 1.02\n\n\n"); 
       printf(" Sliding window analysis with parameters:\n");
       printf("     window size is %d\n",blocksize);
       printf("     slide is %d\n",slidesize);
@@ -341,7 +341,7 @@ void parse_cmdline(int argc, char *argv[])
 
       // Correctly gave parameters for SW analysis.  Set toggle.
       SW=1;
-      printf("\n SplitSup version 1.01\n\n\n"); 
+      printf("\n SplitSup version 1.02\n\n\n"); 
       printf(" Sliding window analysis with parameters:\n");
       printf("     window size is %d\n",blocksize);
       printf("     slide is %d\n",slidesize);
@@ -763,10 +763,11 @@ int main( int argc, char *argv[])
 
       fflush(0);
 
+      printf(" The sequence data has %d gapless sites out of %d sites in the alignment.\n",num_no_gaps,nsite);
+
       // Start computations of scores
 
       // Get sum of squared counts, i.e. the square of the Froebenius norm 
-      if (nsite!=num_no_gaps) printf(" The sequence data has %d gapless sites out of %d sites in the alignment.\n",num_no_gaps,nsite);
       for (i=0; i<num_unique; i++) fnorm2 = fnorm2 + pow((double)site_counter[i]/(double)num_no_gaps,2);
 
       Data_Bin();

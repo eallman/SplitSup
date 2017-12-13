@@ -13,7 +13,7 @@ MPI ?= no
 # See the MrBayes manual for some optimization hints for your particular
 # architecture or consult the manual of your compiler, eg. "info gcc".
 
-DEBUG ?= no
+DEBUG ?= yes
 #OPTFLAGS = -O2 -march=pentium4 -mfpmath=sse -fomit-frame-pointers
 OPTFLAGS ?= -O3
 
@@ -63,16 +63,13 @@ else
         CFLAGS += $(OPTFLAGS)
 endif
 
-# Uncomment if want all warnings
-# CFLAGS   +=   -Wall
+CFLAGS   +=   -Wall
 
-# Put the directory for GSL include files here
 INCL_GSL = /opt/local/include
 INCLUDE_FLAGS += -I$(INCL_GSL)
 
 LIBS     +=   -lm -lgsl -lgslcblas
 
-# Put the directory for GSL library files here
 GSLLIBDIR = /opt/local/lib/
 LBFLAGS  +=  -L$(GSLLIBDIR)
 
